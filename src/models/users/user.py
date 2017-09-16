@@ -2,6 +2,7 @@ import uuid
 from src.common.database import Database
 import src.models.users.errors as UserErrors
 from src.common.utils import Utils
+
 class User():
     def __init__(self, email, password, _id=None):
         self.email = email
