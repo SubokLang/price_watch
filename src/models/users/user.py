@@ -43,11 +43,9 @@ class User():
         user_data = Database.find_one("users", {"email": email})
 
         if user_data is not None:
-            # tell user they are already registered
-            pass
+            raise UserErrors.UserAlreadyRegisteredError("The e-mail already registered")
         if not Utils.email_is_valid(email):
-            # email not constructed properly
-            pass
+            raise UserErrors.InvalidEmailError("Bad email format")
 
         User(email, Utils.hash_password(password))save_to_db()
 
