@@ -1,6 +1,10 @@
 from bs4 import BeautifulSoup
 import requests
 import re
+
+from src.common.database import Database
+import src.models.items.constants as ItemConstants
+
 class Item():
     def __init__(self, name, price, store):
         self.name = name
@@ -24,3 +28,15 @@ class Item():
         match = pattern.search(string_price)
 
         return match.group()
+
+    def save_to_mongo(self):
+        Database.insert(ItemConstants.COLLECTION, self.json())
+
+    def load_from_mongo(self):
+        pass
+
+    def json(self):
+        return {
+            "name": self.name,
+            "url": self.url
+        }
