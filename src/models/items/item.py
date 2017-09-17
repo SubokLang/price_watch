@@ -5,14 +5,15 @@ import uuid
 
 from src.common.database import Database
 import src.models.items.constants as ItemConstants
+from src.models.stores.store import Store
 
 class Item():
-    def __init__(self, name, price, store, _id=None):
+    def __init__(self, name, url, _id=None):
         self.name = name
         self.url = url
-        self.store = store
-        tag_name = store.get_tag_name()
-        query = store.query()
+        # self.store = store
+        tag_name = store.tag_name
+        query = store.query
         self.price = self.load_price(tag_name, query)
         self.id = uuid.uuid4().hex if _id is None else _id
 

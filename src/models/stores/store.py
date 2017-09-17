@@ -1,6 +1,7 @@
 import uuid
 from src.common.database import Database
 import src.models.stores.constants as StoreConstants
+import src.models.stores.errors as StoreErrors
 
 class Store():
     def __init__(self, name, url_prefix, tag_name, query, _id=None):
@@ -35,9 +36,18 @@ class Store():
 
     @classmethod
     def get_by_url_prefix(cls, url_prefix):
+        return cls(**Database.find_one(StoreConstants.COLLECTION, {"url_prefix":{"$regex":'^{}'.format(url_prefix)}}))
+
+    @classmethod
+    def find_by_url(cls, url):
         """
 
-        :param url_prefix:
-        :return: starts with...
+        :param url: item's URL
+        :return:
         """
-        return cls(**Database.find_one(StoreConstants.COLLECTION, {"url_prefix":{"$regex":'^{}'.format(url_prefix)}}))
+        for i in range(0, len(url)+1):
+            try:
+                store = cls.get_by_url_prefix(url[:1])
+                return store
+            except:
+                raise StoreErrors.StoreNotFoundException("Store not found")
