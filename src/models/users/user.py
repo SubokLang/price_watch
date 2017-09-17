@@ -25,7 +25,7 @@ class User():
         if user_data is None:
             # Tell the user that they don't exist
             raise UserErrors.UserNotExistsError("User not found")
-        if not Utils.check_hashed_password(password, user_data['password'])
+        if not Utils.check_hashed_password(password, user_data['password']):
             # Tell user wrong password
             raise UserErrors.IncorrectPasswordError("Incorrect password")
 
